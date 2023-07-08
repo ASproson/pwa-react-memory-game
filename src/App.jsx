@@ -50,7 +50,7 @@ function App() {
         setDisabled(true);
         pickTimer = setTimeout(() => {
           handleTurn();
-        }, 1000);
+        }, 600);
       }
     }
 
@@ -69,7 +69,7 @@ function App() {
       setCards(shuffle);
       setBadge();
     }
-  }, [cards, wins]);
+  }, [cards, wins, setBadge]);
 
   return (
     <>
