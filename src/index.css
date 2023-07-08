@@ -92,6 +92,7 @@ button {
   width: var(--card-width);
   animation: var(--card-enter);
   border-radius: var(--radius);
+  cursor: pointer;
 }
 .card img {
   width: 100%;
