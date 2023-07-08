@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 
 function App() {
+  const [wins, setWins] = useState(0);
   const [cards, setCards] = useState(shuffle);
   const [pickOne, setPickOne] = useState(null);
   const [pickTwo, setPickTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
-  const [wins, setWins] = useState(0);
 
-  const handleClick = () => {
+  const handleClick = (card) => {
     if (!disabled) {
       pickOne ? setPickTwo(card) : setPickOne(card);
     }
@@ -30,6 +30,7 @@ function App() {
 
   useEffect(() => {
     let pickTimer;
+
     if (pickOne && pickTwo) {
       if (pickOne.image === pickTwo.image) {
         setCards((prevCards) => {
@@ -48,12 +49,12 @@ function App() {
           handleTurn();
         }, 1000);
       }
-
-      return () => {
-        clearTimeout(pickTimer);
-      };
     }
-  }, [cards, pickOne, pickTwo]);
+
+    return () => {
+      clearTimeout(pickTimer);
+    };
+  }, [cards, pickOne, pickTwo, wins]);
 
   useEffect(() => {
     const checkWin = cards.filter((card) => !card.matched);
@@ -71,18 +72,19 @@ function App() {
       <Header handleNewGame={handleNewGame} wins={wins} />
       <div className="grid">
         {cards.map((card) => {
-          const { image, id, matched } = card;
+          const { image, matched } = card;
+
           return (
             <Card
-              key={id}
+              key={image.id}
+              card={card}
               image={image}
-              selected={card === pickOne || card === pickTwo || matched}
               onClick={() => handleClick(card)}
+              selected={card === pickOne || card === pickTwo || matched}
             />
           );
         })}
       </div>
-      ;
     </>
   );
 }
